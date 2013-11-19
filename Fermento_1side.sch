@@ -4314,7 +4314,7 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <sheets>
 <sheet>
 <plain>
-<text x="167.64" y="-173.99" size="2.286" layer="94">Alarm Clock designed at TokyoHackerspace</text>
+<text x="167.64" y="-173.99" size="2.286" layer="94">A simple board to implement a temperature control loop for an incubator</text>
 <text x="167.64" y="-177.8" size="2.286" layer="94">by FakuFaku aka Robin Scheibler</text>
 <text x="167.64" y="-181.61" size="2.286" layer="94">License CC-BY-SA 3.0</text>
 <text x="259.08" y="-198.12" size="2.286" layer="94">2</text>
