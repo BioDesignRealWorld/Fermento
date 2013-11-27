@@ -8,7 +8,7 @@
 </settings>
 <grid distance="0.025" unitdist="inch" unit="inch" style="dots" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="no" active="yes"/>
@@ -16,8 +16,8 @@
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
@@ -158,7 +158,8 @@
 <dimension x1="5" y1="5" x2="80" y2="5" x3="42.5" y3="-6.35" textsize="2.54" layer="21"/>
 <text x="90.17" y="26.67" size="1.778" layer="51">R1,R3: 10K</text>
 <text x="90.17" y="23.495" size="1.778" layer="51">R2: 1K</text>
-<text x="90.17" y="20.32" size="1.778" layer="51">C1,C2,C3: 0.1uF</text>
+<text x="90.17" y="20.32" size="1.778" layer="51">C1,C2,C3,C5: 0.1uF</text>
+<text x="90.17" y="17.145" size="1.778" layer="51">C4: 47uF</text>
 </plain>
 <libraries>
 <library name="Robin">
