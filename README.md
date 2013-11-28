@@ -8,7 +8,7 @@ __Fermento_1side__ is the homebrew version for home printing.
 
 To install the firmware in your Arduino IDE, do the following.
 
-* Copy the folder `Fermento` to your local Arduino folder.
+* Copy the folder `firmware/Fermento` to your local Arduino folder.
 * Copy the content of `firmware/hardware` to local `Arduino/hardware`.
 * Copy the content of `firmware/libraries` to local `Arduino/libraries`.
 
