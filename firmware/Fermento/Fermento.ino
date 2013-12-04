@@ -24,17 +24,17 @@ int systemColor = RED;
 int display_brightness = 15000; //A larger number makes the display more dim. This is set correctly below.
 // slow continuous PWM variables
 #define PWM_MS 5000
-#define PWM_MIN 10
+#define PWM_MIN 100
 #define RELAY_ON  LOW
 #define RELAY_OFF HIGH
 
 // PID loop parameter
 #define PID_KP  50
-#define PID_KI  0.3
+#define PID_KI  1
 #define PID_KD  1
 
 // Some display related parameters (time in seconds, temperature in degrees Celsius)
-#define TIME_INCREMENT 300
+#define TIME_INCREMENT 1800
 #define MAX_TIME 356459
 #define TEMP_INCREMENT 1
 #define MAX_TEMP 65
@@ -148,12 +148,16 @@ unsigned long timer_seconds = 0;
 //The very important 32.686kHz interrupt handler
 SIGNAL(TIMER2_OVF_vect)
 {
-  if (timer_seconds > 0)
-    timer_seconds--;
-
-  // turn incubator off if timer expires
-  if (timer_seconds == 0)
+  if (timer_seconds > 1)
   {
+    timer_seconds--;
+  }
+  else if (timer_seconds == 1)
+  {
+    // reset timer
+    timer_seconds = 0;
+    // turn off by setting target temperature to zero
+    t_set = 0;
     // Reset the PID
     myPID.SetMode(MANUAL);
     myPID.SetMode(AUTOMATIC);
@@ -238,8 +242,7 @@ void setup()
 void loop()
 {
   
-  if (timer_seconds > 0)
-    temperatureControl();
+  temperatureControl();
 
   // display and output to serial
   if (display_status == TEMP)
@@ -253,6 +256,7 @@ void loop()
     displayTime(timer_disp, TRUE); //Each call takes about 8ms, display the colon 
   }
 
+  // handle buttons
   int b1 = digitalRead(theButton);
   int b2 = digitalRead(theButton2);
 
@@ -263,7 +267,8 @@ void loop()
     {
       // system reset
       timer_seconds = 0;
-      t_incub = 0;
+      t_set = 0;
+      // reset PID
       myPID.SetMode(MANUAL);
       myPID.SetMode(AUTOMATIC);
     }
@@ -289,38 +294,32 @@ void temperatureControl()
 
   unsigned long now = millis();
 
+  // averaging over the whole 5 seconds
   t_incub += (read_temperature() - t_incub)/(++t_incub_N);
 
   if(now - windowStartTime > PWM_MS)
   { 
     // compute new pwm value for that window
-    myPID.Compute();
-
-    // display some stuff in serial.
-    int t_ext = read_temperature();
-    Serial.print(t_incub);
-    Serial.print(" ");
-    Serial.print(t_ext);
-    Serial.print(" ");
-    Serial.print(pwm_duty);
-    Serial.println();
+    if (t_set != 0)
+      myPID.Compute();
 
     // start a new relay window
     windowStartTime = now;
 
-    // restart averaging of oven temperature
+    // restart averaging of temperature
     t_incub_disp = t_incub;
     t_incub = read_temperature();
     t_incub_N = 1;
 
   }
 
-  // if t_set is zero, that means oven is off
+  // if t_set is zero, that means incubator is off
   if (t_set < 1)
   {
     pwm_duty = 0;
   }
 
+  // control the slow PWM
   if (pwm_duty < PWM_MIN)
   {
     digitalWrite(pwm_pin, RELAY_OFF);
