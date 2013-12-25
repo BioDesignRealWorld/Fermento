@@ -59,3 +59,12 @@ Then, chose `Tools -> Board -> ATmega32 on a breadboard`. Choose the sketch
 In case you don't use the homebrew version, there is one line to comment out in
 the sketch to change the pin mapping.
 
+License
+-------
+
+2013 (c) Robin Scheibler, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+
+Based on [TokyoTime](http://robinscheibler.org/TokyoTime), itself based on SparkFun's [BigTime](https://www.sparkfun.com/products/11734).
+
+The code uses the [Arduino PID library](http://playground.arduino.cc/Code/PIDLibrary).
+
