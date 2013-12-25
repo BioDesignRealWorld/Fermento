@@ -59,6 +59,11 @@ Then, chose `Tools -> Board -> ATmega32 on a breadboard`. Choose the sketch
 In case you don't use the homebrew version, there is one line to comment out in
 the sketch to change the pin mapping.
 
+In the Fab version, an ISP header is provided to burn the bootloader. The Homebrew
+version is lacking this, so a different board (such as the standard Arduino) needs
+to be used to burn the bootloader. In addition, an ISP-programmer is needed.
+An Arduino board can also be used to do [the job](http://arduino.cc/en/Tutorial/ArduinoISP).
+
 License
 -------
 
