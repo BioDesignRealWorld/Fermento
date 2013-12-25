@@ -16,8 +16,8 @@
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
@@ -128,14 +128,11 @@
 <wire x1="5.08" y1="68" x2="0" y2="62.92" width="0" layer="20" curve="90"/>
 <dimension x1="5.08" y1="68" x2="5.08" y2="0" x3="-8.89" y3="34" textsize="2.54" layer="51"/>
 <dimension x1="0" y1="5.08" x2="85" y2="5.08" x3="42.5" y3="-10.795" textsize="2.54" layer="51"/>
-<text x="90.17" y="34.29" size="2.54" layer="51">All other drills: 0.9mm</text>
-<text x="90.17" y="60.96" size="2.54" layer="51">Buzzer+Crystal: 0.5mm</text>
-<text x="90.17" y="57.15" size="2.54" layer="51">Mount Holes: 3.2mm</text>
-<text x="90.17" y="53.34" size="2.54" layer="51">Relay: 1.35mm</text>
-<text x="90.17" y="49.53" size="2.54" layer="51">Terminal: 1.5mm</text>
-<text x="90.17" y="45.72" size="2.54" layer="51">Regulator: 4mm</text>
-<text x="90.17" y="41.91" size="2.54" layer="51">Buttons: 1mm</text>
-<text x="90.17" y="38.1" size="2.54" layer="51">DC Jack: 3mm</text>
+<text x="90.17" y="45.72" size="2.54" layer="51">All other drills: 1mm</text>
+<text x="90.17" y="60.96" size="2.54" layer="51">Buzzer+Crystal: 0.8mm</text>
+<text x="90.17" y="57.15" size="2.54" layer="51">Relay+Terminal: 1.6mm</text>
+<text x="90.17" y="53.34" size="2.54" layer="51">Buttons: 1.2mm</text>
+<text x="90.17" y="49.53" size="2.54" layer="51">DC Jack+Mount holes: 3mm</text>
 <text x="79.375" y="15.875" size="2.54" layer="21">DC</text>
 <text x="50.8" y="59.055" size="2.54" layer="21">Relay</text>
 <text x="22.225" y="52.705" size="2.54" layer="21" rot="R180">Terminal</text>
@@ -160,6 +157,18 @@
 <text x="90.17" y="23.495" size="1.778" layer="51">R2: 1K</text>
 <text x="90.17" y="20.32" size="1.778" layer="51">C1,C2,C3,C5: 0.1uF</text>
 <text x="90.17" y="17.145" size="1.778" layer="51">C4: 47uF</text>
+<text x="90.17" y="0.635" size="1.778" layer="51">TEMP1: LM61, solder the sensor 
+at the end of a long wire, and the wire 
+into the PCB. This is to let the sensor 
+go into the incubator box.</text>
+<text x="90.17" y="13.97" size="1.778" layer="51">Q2: MOSFET</text>
+<text x="62.865" y="22.225" size="1.016" layer="51" rot="R90">Heat sink this way</text>
+<text x="76.835" y="22.86" size="1.016" layer="21">Negative</text>
+<text x="81.915" y="57.15" size="1.016" layer="21">GND</text>
+<text x="81.915" y="52.07" size="1.016" layer="21">3V3</text>
+<text x="81.915" y="49.53" size="1.016" layer="21">RXI</text>
+<text x="81.915" y="46.99" size="1.016" layer="21">TXO</text>
+<text x="81.915" y="44.45" size="1.016" layer="21">RST</text>
 </plain>
 <libraries>
 <library name="Robin">
@@ -1159,4 +1168,10 @@ design rules under a new name.</description>
 </signals>
 </board>
 </drawing>
+<compatibility>
+<note version="6.3" minversion="6.2.2" severity="warning">
+Since Version 6.2.2 text objects can contain more than one line,
+which will not be processed correctly with this version.
+</note>
+</compatibility>
 </eagle>
