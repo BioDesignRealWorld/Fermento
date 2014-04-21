@@ -64,6 +64,24 @@ version is lacking this, so a different board (such as the standard Arduino) nee
 to be used to burn the bootloader. In addition, an ISP-programmer is needed.
 An Arduino board can also be used to do [the job](http://arduino.cc/en/Tutorial/ArduinoISP).
 
+Use it
+------
+
+Button1 and button2 control the incubation temperature and time respectively.
+
+When button1 is shortly pressed the display switches to temperature. To set the
+incubation temperature, keep button1 pressed until it displays the desired
+temperature. The temperature regulation starts as soon as an incubation
+temperatures different than 0 is set. Note that if the incubation temperature
+is lower than room temperature, nothing happens.
+
+When button2 is shortly pressed the display switches to incubation time
+(hours:minutes). To set the incubation time, keep button2 pressed until the
+desired incubation time is displayed. If you don’t set an incubation time, the
+incubation will never stop. The time goes up in increments of 30 minutes.
+
+Pressing button1 and button2 together for a few seconds resets incubation temperature and time to 0.
+
 License
 -------
 

@@ -13,6 +13,9 @@
 #define TRUE 1
 #define FALSE 0
 
+#define ENTER_CRIT()    {byte volatile saved_sreg = SREG; cli()
+#define LEAVE_CRIT()    SREG = saved_sreg;}
+
 //Careful messing with the system color, you can damage the display if
 //you assign the wrong color. If you're in doubt, set it to red and load the code,
 //then see what the color is.
@@ -21,7 +24,16 @@
 #define BLUE  3
 #define YELLOW  4
 int systemColor = RED;
-int display_brightness = 15000; //A larger number makes the display more dim. This is set correctly below.
+int display_brightness = 2000; //A larger number makes the display more dim. This is set correctly below.
+
+// These define control how to turn on digits and segments
+// Change these according to the type of seven-segment used (common anode/cathode)
+// The default is set for common cathode
+#define DIGIT_ON   LOW
+#define DIGIT_OFF  HIGH
+#define SEGMENT_ON  HIGH
+#define SEGMENT_OFF LOW
+
 // slow continuous PWM variables
 #define PWM_MS 5000
 #define PWM_MIN 100
@@ -41,7 +53,7 @@ int display_brightness = 15000; //A larger number makes the display more dim. Th
 
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // Uncomment following line for the homebrew (1-sided) PCB version
-#define FERMENTO_1SIDE
+//#define FERMENTO_1SIDE
 //Pin definitions
 #ifdef FERMENTO_1SIDE
 int digit1 = 10;    //Display pin 12
@@ -95,7 +107,8 @@ int segG = 4;       //Display pin 5
 
 int colons = 6;     //Display pin 3
 
-int temp_sen = A0;  // to read the temperature sensor
+int temp_sen = A4;  // to read the temperature sensor
+//int temp_sen = A0;  // to read the temperature sensor
 
 const static int buzz = 9;
 const static int theButton = 2;
@@ -148,6 +161,9 @@ unsigned long timer_seconds = 0;
 //The very important 32.686kHz interrupt handler
 SIGNAL(TIMER2_OVF_vect)
 {
+
+  ENTER_CRIT();
+
   if (timer_seconds > 1)
   {
     timer_seconds--;
@@ -166,19 +182,25 @@ SIGNAL(TIMER2_OVF_vect)
   // decrement backoff
   if (backoff > 0)
     backoff--;
+
+  LEAVE_CRIT();
 }
 
 //The interrupt occurs when you push the button
 SIGNAL(BUTTON1_INT_VECT)
 {
+  ENTER_CRIT();
   display_status = TEMP;
   backoff = BACKOFFTIME;
+  LEAVE_CRIT();
 }
 
 SIGNAL(BUTTON2_INT_VECT)
 {
+  ENTER_CRIT();
   display_status = TIME;
   backoff = BACKOFFTIME;
+  LEAVE_CRIT();
 }
 
 void setup()
@@ -251,8 +273,11 @@ void loop()
   }
   else
   {
-    int timer_disp = (timer_seconds/3600)*100 + (timer_seconds/60)%60 
-      + (timer_seconds%60 == 0 ? 0 : 1);
+    unsigned int timer_disp;
+    if (timer_seconds % 60 != 0)
+      timer_disp = seconds2hours_minutes(timer_seconds + (60 - (timer_seconds%60)));
+    else
+      timer_disp = seconds2hours_minutes(timer_seconds);
     displayTime(timer_disp, TRUE); //Each call takes about 8ms, display the colon 
   }
 
@@ -291,7 +316,6 @@ void loop()
 // Simple PWM based on millis directly
 void temperatureControl()
 {
-
   unsigned long now = millis();
 
   // averaging over the whole 5 seconds
@@ -352,6 +376,7 @@ float read_temperature()
 //Releasing the button for more than 2 seconds will exit this mode
 void setTemperature()
 {
+  ENTER_CRIT();
 
   int idleMiliseconds = 0;
   //This is the timeout counter. Once we get to ~2 seconds of inactivity, the watch
@@ -377,6 +402,8 @@ void setTemperature()
 
     idleMiliseconds += 200;
   }
+
+  LEAVE_CRIT();
 }
 
 //This routine occurs when you hold the button 2 down
@@ -385,6 +412,8 @@ void setTemperature()
 //Releasing the button for more than 2 seconds will exit this mode
 void setTime()
 {
+  ENTER_CRIT();
+  
   // restart timer
   timer_seconds = 0;
 
@@ -395,8 +424,7 @@ void setTime()
   while(idleMiliseconds < 2000) 
   {
 
-    int timer_disp = (timer_seconds/3600)*100 + (timer_seconds/60)%60 
-      + (timer_seconds % 60 == 0 ? 0 : 1);
+    unsigned int timer_disp = seconds2hours_minutes(timer_seconds);
 
     for(int x = 0 ; x < 10 ; x++) {
       displayTime(timer_disp, TRUE); //Each call takes about 8ms, display the colon for about 100ms
@@ -411,11 +439,20 @@ void setTime()
     if(digitalRead(theButton2) == LOW) {
       idleMiliseconds = 0;
 
-      timer_seconds = ((int)(timer_seconds+TIME_INCREMENT) % MAX_TIME); // Increase timer
+      timer_seconds = ((timer_seconds+TIME_INCREMENT) % MAX_TIME); // Increase timer
     }
 
     idleMiliseconds += 200;
   }
+  LEAVE_CRIT();
+}
+
+/* transform a number of seconds into a 4 digit hhmm (hours/minutes) number to display */
+unsigned int seconds2hours_minutes(unsigned long seconds)
+{
+    unsigned int hours = seconds/3600;
+    unsigned int minutes = (seconds % 3600)/60;
+    return hours*100 + minutes;
 }
 
 
@@ -428,9 +465,6 @@ void setTime()
 //After running through the 4 numbers, the display is turned off
 void displayTemperature(int toDisplay, boolean displayColon)
 {
-
-#define DIGIT_ON   LOW
-#define DIGIT_OFF  HIGH
 
   for(int digit = 4 ; digit > 0 ; digit--) {
 
@@ -490,11 +524,8 @@ void displayTemperature(int toDisplay, boolean displayColon)
 //Given 1022, we display "10:22"
 //Each digit is displayed for ~2000us, and cycles through the 4 digits
 //After running through the 4 numbers, the display is turned off
-void displayTime(int toDisplay, boolean displayColon)
+void displayTime(unsigned int toDisplay, boolean displayColon)
 {
-
-#define DIGIT_ON   LOW
-#define DIGIT_OFF  HIGH
 
   for(int digit = 4 ; digit > 0 ; digit--) {
 
@@ -546,9 +577,6 @@ void displayTime(int toDisplay, boolean displayColon)
 //We don't use the colons, or AMPM dot, so they are turned off
 void displayLetters(char *colorName)
 {
-#define DIGIT_ON  HIGH
-#define DIGIT_OFF  LOW
-
   digitalWrite(digit4, DIGIT_OFF);
   digitalWrite(colons, DIGIT_OFF);
   //digitalWrite(ampm, DIGIT_OFF);
@@ -590,9 +618,6 @@ void displayLetters(char *colorName)
 //If number == 10, then turn off all segments
 void lightNumber(int numberToDisplay)
 {
-
-#define SEGMENT_ON  HIGH
-#define SEGMENT_OFF LOW
 
   /*
 Segments
