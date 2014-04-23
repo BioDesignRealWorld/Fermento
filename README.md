@@ -11,6 +11,8 @@ Board
   To accomodate a single sided board, the wiring of the component to the microcontroller had to be changed. The correct pin mapping can be changed by a single line
   in the firmware.
 
+![](Fab/Fermento_info.png)
+
 Bill Of Material
 ----------------
 
