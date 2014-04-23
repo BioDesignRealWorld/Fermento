@@ -53,7 +53,7 @@ To install the firmware in your Arduino IDE, do the following.
 * Copy the content of `firmware/hardware` to local `Arduino/hardware`.
 * Copy the content of `firmware/libraries` to local `Arduino/libraries`.
 
-Then, chose `Tools -> Board -> ATmega32 on a breadboard`. Choose the sketch
+Then, chose `Tools -> Board -> ATmega328p on a breadboard`. Choose the sketch
 `Fermento` from the sketchbook, and upload it.
 
 In case you don't use the homebrew version, there is one line to comment out in
