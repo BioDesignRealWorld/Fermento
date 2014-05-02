@@ -52,8 +52,19 @@ int display_brightness = 2000; //A larger number makes the display more dim. Thi
 #define MAX_TEMP 65
 
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// OPTIONS
+//
+// Voltage reference of the ADC
+#define ADC_REF 3300
+//
 // Uncomment following line for the homebrew (1-sided) PCB version
 //#define FERMENTO_1SIDE
+//
+// Uncomment the following line if you use the LM35 instead of the LM61 temperature sensor
+//#define LM35
+//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 //Pin definitions
 #ifdef FERMENTO_1SIDE
 int digit1 = 10;    //Display pin 12
@@ -107,8 +118,7 @@ int segG = 4;       //Display pin 5
 
 int colons = 6;     //Display pin 3
 
-int temp_sen = A4;  // to read the temperature sensor
-//int temp_sen = A0;  // to read the temperature sensor
+int temp_sen = A0;  // to read the temperature sensor
 
 const static int buzz = 9;
 const static int theButton = 2;
@@ -363,11 +373,20 @@ void temperatureControl()
 
 float read_temperature()
 {
+  // make an average of 10 readings of the ADC
   float A = 0;
   for (int i=0 ; i < 10 ; i++)
     A += analogRead(temp_sen);
   A /= 10;
-  return (A/1023.*3300 - 600)/10;
+
+  // convert the ADC output to a temperature
+#ifndef LM35
+  // LM61 sensor
+  return (A/1023.*ADC_REF - 600)/10;
+#else
+  // LM35 sensor
+  return (A/1023.*ADC_REF)/10;
+#end
 }
 
 //This routine occurs when you hold the button 1 down
