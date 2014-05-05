@@ -386,7 +386,7 @@ float read_temperature()
 #else
   // LM35 sensor
   return (A/1023.*ADC_REF)/10;
-#end
+#endif
 }
 
 //This routine occurs when you hold the button 1 down
