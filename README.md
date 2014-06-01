@@ -16,6 +16,8 @@ Board
 Bill Of Material
 ----------------
 
+* 1x ATmega328p
+* 1x DIP28 socket 
 * 2x Tactile switch (through hole) (BUTTON1, BUTTON2) (C&K PTS645SM95-2 LFS)
 * 2x Resistor 10K (R1, R3)
 * 1x Resistor 1K (R2)
@@ -30,7 +32,7 @@ Bill Of Material
 * 1x 32.768kHz crystal (Q1) (ECS-.327-12.5-13X)
 * 1x Mosfet transistor, TO92 (Q2) (Supertex TP2104N3-G)
 * 1x 3.3V Regulator, TO220 (REG1) (TI TLV2217-33KCSE3)
-* 1x Temperature sensor, TO92 (TEMP1) (TI LM61CIZ/NOPG)
+* 1x Temperature sensor, TO92 (TEMP1) (TI LM61CIZ/NOPB)
 * 1x 7-segment 4-digit display (7SEG) (Lumex LDQ-N514RI)
 
 Wiring of the incubator
