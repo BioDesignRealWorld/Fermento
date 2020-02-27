@@ -66,7 +66,7 @@ contributors:                              # recommended
 #    affiliation: [value]                   # text
 #    email: [value]                         # email address
 
-#image: [value]                             # recommended | absolute or relative path
+image: https://raw.githubusercontent.com/BioDesignRealWorld/Fermento/master/Fab/Fermento_info.png                             # recommended | absolute or relative path
 
 #version: [value]                           # text
 
