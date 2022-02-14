@@ -18,7 +18,7 @@ manifest-author:
   affiliation: University of Sussex        # text
   email: a.maia-chagas@sussex.ac.uk        # email address
 
-manifest-language: EN-UK
+manifest-language: en-UK
 
 #documentation-language: [language-code]-[region]
 
@@ -38,9 +38,8 @@ manifest-language: EN-UK
 
 title: Fermento                             # required | text | A title to identify the thing
 
-description: |                             # required | paragraph
+description: |
   An open-source incubator for fun and profit.
-
 #intended-use: |                            # recommended | Paragraph
 #  [value]
 
@@ -66,7 +65,7 @@ contributors:                              # recommended
 #    affiliation: [value]                   # text
 #    email: [value]                         # email address
 
-image: https://raw.githubusercontent.com/BioDesignRealWorld/Fermento/master/Fab/Fermento_info.png                             # recommended | absolute or relative path
+image: Fab/Fermento_info.png                             # recommended | absolute or relative path
 
 #version: [value]                           # text
 
@@ -104,7 +103,7 @@ image: https://raw.githubusercontent.com/BioDesignRealWorld/Fermento/master/Fab/
 
 license:                                   # At least one license is required | The format should be an SPDX identifier. See https://spdx.org/licenses/hardware: [value] # recommended | The license under which the hardware is released
   #hardware: [value]                        # recommended | The license under which the documentation is released
-  documentation: CC-BY-SA 3.0                   # recommended | The license under which the documentation is released
+  documentation: CC-BY-SA-3.0                   # recommended | The license under which the documentation is released
   #software: [value]                        # recommended where software is used | The license under which the software is released
 
 #licensor:
